@@ -1,0 +1,1 @@
+python3 zero_shot_image_transfer/image_transfer.py --cs_dir="./data/cityscapes" --domain="snow"
