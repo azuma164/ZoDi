@@ -1,6 +1,6 @@
 # ZoDi: Zero-Shot Domain Adaptation with Diffusion-Based Image Transfer
 <p align="center">
-  <img src="figure/abst.png" width=60%>
+  <img src="figure/abst.png" width=100%>
 </p>
 
 This repository contains official PyTorch implementation for our paper: ZoDi: Zero-Shot Domain Adaptation with Diffusion-Based Image Transfer ([arXiv](https://arxiv.org/abs/2403.13652)).
