@@ -1,5 +1,6 @@
 import os
 import random
+import argparse
 
 import cv2
 import einops
@@ -20,10 +21,10 @@ preprocessor = None
 model_name = "control_v11p_sd15_seg"
 model = create_model(f"./models/{model_name}.yaml").cpu()
 model.load_state_dict(
-    load_state_dict("./models/v1-5-pruned.ckpt", location="cuda"), strict=False
+    load_state_dict("./ckpt/v1-5-pruned.ckpt", location="cuda"), strict=False
 )
 model.load_state_dict(
-    load_state_dict(f"./models/{model_name}.pth", location="cuda"), strict=False
+    load_state_dict(f"./ckpt/{model_name}.pth", location="cuda"), strict=False
 )
 model = model.cuda()
 ddim_sampler = DDIMSampler(model)
@@ -42,6 +43,7 @@ def process(
     ddim_steps,
     guess_mode,
     strength,
+    noise_strength,
     scale,
     seed,
     eta,
@@ -81,7 +83,6 @@ def process(
             "c_concat": None if guess_mode else [control],
             "c_crossattn": [model.get_learned_conditioning([n_prompt] * num_samples)],
         }
-        shape = (4, H // 8, W // 8)
 
         if config.save_memory:
             model.low_vram_shift(is_diffusing=True)
@@ -106,7 +107,7 @@ def process(
         )  # move to latent space
 
         # stochastic inversion
-        strength_enc = 0.60
+        strength_enc = noise_strength
         t_enc = int(strength_enc * 1000)
         x_noisy = model.q_sample(
             x_start=init_latent,
@@ -154,7 +155,6 @@ def process(
 
 
 if __name__ == "__main__":
-    import argparse
     parser = argparse.ArgumentParser(description='Segmentation training and evaluation')
     parser.add_argument('--cs_dir', type=str, required=True)
     parser.add_argument('--domain', required=True)
@@ -166,7 +166,15 @@ if __name__ == "__main__":
         "snow": "driving in snow",
         "rain": "driving under rain",
         "fog": "driving in fog",
-        "game": "driving in a game"
+        "game": "driving in a game",
+    }
+
+    noise_strength_dict = {
+        "night": 0.90,
+        "snow": 0.65,
+        "rain": 0.65,
+        "fog": 0.60,
+        "game": 0.60,
     }
 
     det = "Seg_OFADE20K"
@@ -179,6 +187,7 @@ if __name__ == "__main__":
     ddim_steps = 20
     guess_mode = False
     strength = 1.0
+    noise_strength = noise_strength_dict[args.domain]
     scale = 9.0
     seed = 42
     eta = 1.0
@@ -220,6 +229,7 @@ if __name__ == "__main__":
                 ddim_steps,
                 guess_mode,
                 strength,
+                noise_strength,
                 scale,
                 seed,
                 eta,

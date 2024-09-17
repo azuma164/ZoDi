@@ -1,0 +1,2 @@
+wget -O zero_shot_image_transfer/ckpt/v1-5-pruned.ckpt "https://huggingface.co/botp/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt?download=true"
+wget -O zero_shot_image_transfer/ckpt/control_v11p_sd15_seg.pth "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_seg.pth?download=true"
