@@ -20,7 +20,7 @@ You need to download
 - gtFine_trainvaltest.zip
 - leftImg8bit_trainvaltest.zip
 
-Download ACDC Dataset in this [official website](https://acdc.vision.ee.ethz.ch/)
+Download ACDC Dataset in this [official website](https://acdc.vision.ee.ethz.ch/).
 You need to download
 - gt_trainval.zip
 - rgb_anon_trainvaltest.zip
