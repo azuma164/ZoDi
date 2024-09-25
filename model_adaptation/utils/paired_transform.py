@@ -1,6 +1,5 @@
 import random
 import torchvision.transforms.functional as ttf
-import numpy as np
 
 def unpaired_random_crop(img_lqs, img_refs, patch_size=(512,512)):
 

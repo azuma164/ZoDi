@@ -195,7 +195,7 @@ if __name__ == "__main__":
 
     img_dir = f"{args.cs_dir}/leftImg8bit/train/"
     seg_dir = f"{args.cs_dir}/gtFine/train/"
-    save_dir = f"{args.cs_dir}/{prompt}/train/"
+    save_dir = f"{args.cs_dir}/{args.domain}/train/"
 
     for city in os.listdir(img_dir):
         city_dir = os.path.join(img_dir, city)

@@ -102,6 +102,8 @@ def main(args):
     elif args.target_type == 'gta5':
         list_path = "./datasets/gta5_list/gtav_split_val.txt"
         testset_target = GTA5DataSet(target_path, list_path=list_path, transforms=test_trans)
+    else:
+        raise ValueError
 
     # Use mini-dataset for debugging purposes
     if args.xs:
@@ -225,7 +227,7 @@ def main(args):
         log.info('--- Training ---')
         train_loss, train_loss_source, train_loss_synth, train_loss_sim, train_acc, train_synth_acc =\
             train_epoch[args.ssl](dataloaders['train'], model, criterion, optimizer, epoch, log, 
-                            void=CityscapesExt.voidClass, sim_weight=args.sim_weight)
+                            CityscapesExt.voidClass, args.sim_weight)
         lr = optimizer.param_groups[0]['lr']
         scheduler.step()
         metrics['train_loss'].append(train_loss)
@@ -325,7 +327,7 @@ def main(args):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Segmentation training and evaluation')
-    parser.add_argument('--source_path', type-str, required=True)
+    parser.add_argument('--source_path', type=str, required=True)
     parser.add_argument('--synth_dir', type=str, required=True)
     parser.add_argument('--target_type', type=str, required=True)
     parser.add_argument('--target_path', type=str, required=True)
@@ -365,7 +367,7 @@ if __name__ == '__main__':
     parser.add_argument('--sim_weight', type=float, default=0.1)
     parser.add_argument('--gpu_ids', type=str, default='0,1')
 
-    parser.add_argument('--experiment', type=str, default='',required=True)
+    parser.add_argument('--experiment', type=str, required=True)
     parser.add_argument('--load',type=str,
                         default=None,
                         help='path to pre-trained source model'
