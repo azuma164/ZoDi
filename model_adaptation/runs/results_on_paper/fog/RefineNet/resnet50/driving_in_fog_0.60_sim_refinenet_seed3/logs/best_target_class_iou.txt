@@ -1,0 +1,52 @@
+---------------------
+Epoch 87
+classes           IoU
+---------------------
+road          : 0.974
+sidewalk      : 0.799
+building      : 0.897
+wall          : 0.420
+fence         : 0.523
+pole          : 0.496
+traffic light : 0.531
+traffic sign  : 0.663
+vegetation    : 0.897
+terrain       : 0.560
+sky           : 0.930
+person        : 0.724
+rider         : 0.514
+car           : 0.927
+truck         : 0.723
+bus           : 0.776
+train         : 0.703
+motorcycle    : 0.511
+bicycle       : 0.683
+---------------------
+Score Average : 0.697
+---------------------
+---------------------
+Epoch 87
+classes           IoU
+---------------------
+road          : 0.950
+sidewalk      : 0.776
+building      : 0.817
+wall          : 0.407
+fence         : 0.385
+pole          : 0.375
+traffic light : 0.571
+traffic sign  : 0.440
+vegetation    : 0.854
+terrain       : 0.441
+sky           : 0.947
+person        : 0.535
+rider         : 0.614
+car           : 0.839
+truck         : 0.613
+bus           : 0.898
+train         : 0.738
+motorcycle    : 0.638
+bicycle       : 0.470
+---------------------
+Score Average : 0.648
+---------------------

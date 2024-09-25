@@ -1,0 +1,667 @@
+Namespace(BYOL_weight=0.1, batch_size=4, blur=False, cutout=False, epochs=100, experiment='driving_in_snow_0.65_sim_seed1', gpu_ids='0,1', init_scale=[1.0], jitter=0.5, load=None, lr=0.001, lr_head=0.001, momentum=0.9, poly=True, resume=None, scale=0.0, seed=1, ssl='sim', step=30, synth_dir='driving_in_snow_0.65', target_path='/groups/gcc50494/home/azuma/data/cityscapes/ADHD', target_type='acdc_snow', wd=0.0001, workers=4, xs=False)
+--- Training args ---
+Model pushed to 1 GPU(s), type Tesla V100-SXM2-16GB.
+--- Training ---
+Epoch 0 train loss: 0.8027, acc: 0.7756
+--- Validation - Source ---
+ * Acc 0.860
+--- Validation - Target ---
+ * Acc 0.804
+Namespace(BYOL_weight=0.1, batch_size=4, blur=False, cutout=False, epochs=100, experiment='driving_in_snow_0.65_sim_seed1', gpu_ids='0,1', init_scale=[1.0], jitter=0.5, load=None, lr=0.001, lr_head=0.001, momentum=0.9, poly=True, resume=None, scale=0.0, seed=1, ssl='sim', step=30, synth_dir='driving_in_snow_0.65', target_path='/groups/gcc50494/home/azuma/data/cityscapes/ADHD', target_type='acdc_snow', wd=0.0001, workers=4, xs=False)
+--- Training args ---
+Model pushed to 1 GPU(s), type Tesla V100-SXM2-16GB.
+--- Training ---
+Epoch 0 train loss: 0.7995, acc: 0.7763
+--- Validation - Source ---
+ * Acc 0.861
+--- Validation - Target ---
+ * Acc 0.806
+mIoU improved from 0.0000 to 0.2444.
+mIoU improved from 0.0000 to 0.3169.
+--- Training ---
+Epoch 1 train loss: 0.5161, acc: 0.8465
+--- Validation - Source ---
+ * Acc 0.881
+--- Validation - Target ---
+ * Acc 0.825
+mIoU improved from 0.2444 to 0.3041.
+mIoU improved from 0.3169 to 0.3925.
+--- Training ---
+Epoch 2 train loss: 0.4558, acc: 0.8625
+--- Validation - Source ---
+ * Acc 0.888
+--- Validation - Target ---
+ * Acc 0.821
+mIoU improved from 0.3041 to 0.3190.
+mIoU improved from 0.3925 to 0.4258.
+--- Training ---
+Epoch 3 train loss: 0.4215, acc: 0.8714
+--- Validation - Source ---
+ * Acc 0.896
+--- Validation - Target ---
+ * Acc 0.832
+mIoU improved from 0.3190 to 0.3751.
+mIoU improved from 0.4258 to 0.4774.
+--- Training ---
+Epoch 4 train loss: 0.3979, acc: 0.8779
+--- Validation - Source ---
+ * Acc 0.897
+--- Validation - Target ---
+ * Acc 0.812
+mIoU improved from 0.3751 to 0.3854.
+mIoU improved from 0.4774 to 0.4805.
+--- Training ---
+Epoch 5 train loss: 0.3785, acc: 0.8835
+--- Validation - Source ---
+ * Acc 0.900
+--- Validation - Target ---
+ * Acc 0.804
+mIoU improved from 0.4805 to 0.4932.
+--- Training ---
+Epoch 6 train loss: 0.3630, acc: 0.8872
+--- Validation - Source ---
+ * Acc 0.902
+--- Validation - Target ---
+ * Acc 0.836
+mIoU improved from 0.3854 to 0.3885.
+mIoU improved from 0.4932 to 0.5036.
+--- Training ---
+Epoch 7 train loss: 0.3478, acc: 0.8918
+--- Validation - Source ---
+ * Acc 0.909
+--- Validation - Target ---
+ * Acc 0.825
+mIoU improved from 0.3885 to 0.3941.
+mIoU improved from 0.5036 to 0.5192.
+--- Training ---
+Epoch 8 train loss: 0.3395, acc: 0.8941
+--- Validation - Source ---
+ * Acc 0.906
+--- Validation - Target ---
+ * Acc 0.823
+mIoU improved from 0.3941 to 0.3942.
+mIoU improved from 0.5192 to 0.5196.
+--- Training ---
+Epoch 9 train loss: 0.3277, acc: 0.8973
+--- Validation - Source ---
+ * Acc 0.910
+--- Validation - Target ---
+ * Acc 0.832
+mIoU improved from 0.3942 to 0.4085.
+mIoU improved from 0.5196 to 0.5249.
+--- Training ---
+Epoch 10 train loss: 0.3214, acc: 0.8991
+--- Validation - Source ---
+ * Acc 0.909
+--- Validation - Target ---
+ * Acc 0.834
+mIoU improved from 0.4085 to 0.4122.
+mIoU improved from 0.5249 to 0.5300.
+--- Training ---
+Epoch 11 train loss: 0.3132, acc: 0.9011
+--- Validation - Source ---
+ * Acc 0.914
+--- Validation - Target ---
+ * Acc 0.840
+mIoU improved from 0.4122 to 0.4154.
+mIoU improved from 0.5300 to 0.5459.
+--- Training ---
+Epoch 12 train loss: 0.3065, acc: 0.9031
+--- Validation - Source ---
+ * Acc 0.912
+--- Validation - Target ---
+ * Acc 0.829
+mIoU improved from 0.4154 to 0.4245.
+mIoU improved from 0.5459 to 0.5477.
+--- Training ---
+Epoch 13 train loss: 0.3014, acc: 0.9043
+--- Validation - Source ---
+ * Acc 0.915
+--- Validation - Target ---
+ * Acc 0.839
+mIoU improved from 0.4245 to 0.4340.
+mIoU improved from 0.5477 to 0.5569.
+--- Training ---
+Epoch 14 train loss: 0.2973, acc: 0.9054
+--- Validation - Source ---
+ * Acc 0.909
+--- Validation - Target ---
+ * Acc 0.805
+--- Training ---
+Epoch 15 train loss: 0.2926, acc: 0.9065
+--- Validation - Source ---
+ * Acc 0.912
+--- Validation - Target ---
+ * Acc 0.831
+--- Training ---
+Epoch 16 train loss: 0.2848, acc: 0.9088
+--- Validation - Source ---
+ * Acc 0.913
+--- Validation - Target ---
+ * Acc 0.832
+--- Training ---
+Epoch 17 train loss: 0.2821, acc: 0.9095
+--- Validation - Source ---
+ * Acc 0.915
+--- Validation - Target ---
+ * Acc 0.848
+--- Training ---
+Epoch 18 train loss: 0.2750, acc: 0.9111
+--- Validation - Source ---
+ * Acc 0.915
+--- Validation - Target ---
+ * Acc 0.811
+mIoU improved from 0.5569 to 0.5586.
+--- Training ---
+Epoch 19 train loss: 0.2742, acc: 0.9121
+--- Validation - Source ---
+ * Acc 0.918
+--- Validation - Target ---
+ * Acc 0.834
+--- Training ---
+Epoch 20 train loss: 0.2684, acc: 0.9129
+--- Validation - Source ---
+ * Acc 0.919
+--- Validation - Target ---
+ * Acc 0.846
+mIoU improved from 0.4340 to 0.4414.
+mIoU improved from 0.5586 to 0.5721.
+--- Training ---
+Epoch 21 train loss: 0.2684, acc: 0.9135
+--- Validation - Source ---
+ * Acc 0.917
+--- Validation - Target ---
+ * Acc 0.834
+--- Training ---
+Epoch 22 train loss: 0.2634, acc: 0.9144
+--- Validation - Source ---
+ * Acc 0.918
+--- Validation - Target ---
+ * Acc 0.825
+mIoU improved from 0.5721 to 0.5724.
+--- Training ---
+Epoch 23 train loss: 0.2637, acc: 0.9144
+--- Validation - Source ---
+ * Acc 0.918
+--- Validation - Target ---
+ * Acc 0.847
+mIoU improved from 0.4414 to 0.4440.
+--- Training ---
+Epoch 24 train loss: 0.2574, acc: 0.9161
+--- Validation - Source ---
+ * Acc 0.920
+--- Validation - Target ---
+ * Acc 0.845
+mIoU improved from 0.4440 to 0.4554.
+mIoU improved from 0.5724 to 0.5775.
+--- Training ---
+Epoch 25 train loss: 0.2561, acc: 0.9167
+--- Validation - Source ---
+ * Acc 0.920
+--- Validation - Target ---
+ * Acc 0.842
+mIoU improved from 0.4554 to 0.4609.
+mIoU improved from 0.5775 to 0.5790.
+--- Training ---
+Epoch 26 train loss: 0.2518, acc: 0.9175
+--- Validation - Source ---
+ * Acc 0.921
+--- Validation - Target ---
+ * Acc 0.829
+mIoU improved from 0.5790 to 0.5860.
+--- Training ---
+Epoch 27 train loss: 0.2519, acc: 0.9175
+--- Validation - Source ---
+ * Acc 0.922
+--- Validation - Target ---
+ * Acc 0.844
+--- Training ---
+Epoch 28 train loss: 0.2483, acc: 0.9186
+--- Validation - Source ---
+ * Acc 0.921
+--- Validation - Target ---
+ * Acc 0.831
+mIoU improved from 0.5860 to 0.5949.
+--- Training ---
+Epoch 29 train loss: 0.2462, acc: 0.9191
+--- Validation - Source ---
+ * Acc 0.924
+--- Validation - Target ---
+ * Acc 0.845
+mIoU improved from 0.5949 to 0.6009.
+--- Training ---
+Epoch 30 train loss: 0.2445, acc: 0.9192
+--- Validation - Source ---
+ * Acc 0.922
+--- Validation - Target ---
+ * Acc 0.839
+--- Training ---
+Epoch 31 train loss: 0.2436, acc: 0.9195
+--- Validation - Source ---
+ * Acc 0.921
+--- Validation - Target ---
+ * Acc 0.843
+--- Training ---
+Epoch 32 train loss: 0.2414, acc: 0.9201
+--- Validation - Source ---
+ * Acc 0.923
+--- Validation - Target ---
+ * Acc 0.844
+mIoU improved from 0.4609 to 0.4655.
+--- Training ---
+Epoch 33 train loss: 0.2388, acc: 0.9206
+--- Validation - Source ---
+ * Acc 0.922
+--- Validation - Target ---
+ * Acc 0.833
+--- Training ---
+Epoch 34 train loss: 0.2370, acc: 0.9212
+--- Validation - Source ---
+ * Acc 0.922
+--- Validation - Target ---
+ * Acc 0.839
+--- Training ---
+Epoch 35 train loss: 0.2339, acc: 0.9221
+--- Validation - Source ---
+ * Acc 0.923
+--- Validation - Target ---
+ * Acc 0.846
+mIoU improved from 0.4655 to 0.4697.
+--- Training ---
+Epoch 36 train loss: 0.2321, acc: 0.9222
+--- Validation - Source ---
+ * Acc 0.924
+--- Validation - Target ---
+ * Acc 0.841
+--- Training ---
+Epoch 37 train loss: 0.2311, acc: 0.9226
+--- Validation - Source ---
+ * Acc 0.920
+--- Validation - Target ---
+ * Acc 0.841
+--- Training ---
+Epoch 38 train loss: 0.2318, acc: 0.9226
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.843
+mIoU improved from 0.6009 to 0.6010.
+--- Training ---
+Epoch 39 train loss: 0.2312, acc: 0.9230
+--- Validation - Source ---
+ * Acc 0.924
+--- Validation - Target ---
+ * Acc 0.825
+mIoU improved from 0.6010 to 0.6033.
+--- Training ---
+Epoch 40 train loss: 0.2277, acc: 0.9236
+--- Validation - Source ---
+ * Acc 0.923
+--- Validation - Target ---
+ * Acc 0.797
+--- Training ---
+Epoch 41 train loss: 0.2259, acc: 0.9239
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.834
+mIoU improved from 0.6033 to 0.6038.
+--- Training ---
+Epoch 42 train loss: 0.2246, acc: 0.9243
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.839
+--- Training ---
+Epoch 43 train loss: 0.2226, acc: 0.9249
+--- Validation - Source ---
+ * Acc 0.926
+--- Validation - Target ---
+ * Acc 0.833
+mIoU improved from 0.6038 to 0.6215.
+--- Training ---
+Epoch 44 train loss: 0.2215, acc: 0.9250
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.846
+--- Training ---
+Epoch 45 train loss: 0.2220, acc: 0.9250
+--- Validation - Source ---
+ * Acc 0.926
+--- Validation - Target ---
+ * Acc 0.846
+--- Training ---
+Epoch 46 train loss: 0.2201, acc: 0.9255
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.838
+mIoU improved from 0.4697 to 0.4711.
+--- Training ---
+Epoch 47 train loss: 0.2175, acc: 0.9260
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.850
+mIoU improved from 0.4711 to 0.4751.
+--- Training ---
+Epoch 48 train loss: 0.2175, acc: 0.9261
+--- Validation - Source ---
+ * Acc 0.926
+--- Validation - Target ---
+ * Acc 0.851
+--- Training ---
+Epoch 49 train loss: 0.2177, acc: 0.9262
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.857
+mIoU improved from 0.4751 to 0.4813.
+--- Training ---
+Epoch 50 train loss: 0.2167, acc: 0.9266
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.842
+--- Training ---
+Epoch 51 train loss: 0.2149, acc: 0.9266
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.811
+--- Training ---
+Epoch 52 train loss: 0.2143, acc: 0.9268
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.829
+--- Training ---
+Epoch 53 train loss: 0.2115, acc: 0.9277
+--- Validation - Source ---
+ * Acc 0.926
+--- Validation - Target ---
+ * Acc 0.826
+--- Training ---
+Epoch 54 train loss: 0.2113, acc: 0.9274
+--- Validation - Source ---
+ * Acc 0.925
+--- Validation - Target ---
+ * Acc 0.826
+--- Training ---
+Epoch 55 train loss: 0.2126, acc: 0.9273
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.838
+--- Training ---
+Epoch 56 train loss: 0.2097, acc: 0.9279
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.851
+--- Training ---
+Epoch 57 train loss: 0.2104, acc: 0.9280
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.851
+--- Training ---
+Epoch 58 train loss: 0.2080, acc: 0.9284
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.829
+mIoU improved from 0.6215 to 0.6256.
+--- Training ---
+Epoch 59 train loss: 0.2099, acc: 0.9280
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.846
+--- Training ---
+Epoch 60 train loss: 0.2082, acc: 0.9280
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.836
+--- Training ---
+Epoch 61 train loss: 0.2077, acc: 0.9285
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.837
+--- Training ---
+Epoch 62 train loss: 0.2046, acc: 0.9294
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.828
+--- Training ---
+Epoch 63 train loss: 0.2060, acc: 0.9289
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.846
+--- Training ---
+Epoch 64 train loss: 0.2053, acc: 0.9290
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.842
+--- Training ---
+Epoch 65 train loss: 0.2044, acc: 0.9294
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.838
+mIoU improved from 0.6256 to 0.6292.
+--- Training ---
+Epoch 66 train loss: 0.2039, acc: 0.9295
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.844
+--- Training ---
+Epoch 67 train loss: 0.2008, acc: 0.9301
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.847
+mIoU improved from 0.4813 to 0.4843.
+mIoU improved from 0.6292 to 0.6328.
+--- Training ---
+Epoch 68 train loss: 0.2032, acc: 0.9299
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.845
+--- Training ---
+Epoch 69 train loss: 0.2016, acc: 0.9303
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.847
+--- Training ---
+Epoch 70 train loss: 0.2018, acc: 0.9299
+--- Validation - Source ---
+ * Acc 0.927
+--- Validation - Target ---
+ * Acc 0.821
+--- Training ---
+Epoch 71 train loss: 0.2008, acc: 0.9298
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.838
+--- Training ---
+Epoch 72 train loss: 0.2008, acc: 0.9300
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.836
+--- Training ---
+Epoch 73 train loss: 0.2008, acc: 0.9300
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.853
+--- Training ---
+Epoch 74 train loss: 0.1992, acc: 0.9306
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.857
+--- Training ---
+Epoch 75 train loss: 0.1983, acc: 0.9308
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.850
+--- Training ---
+Epoch 76 train loss: 0.1981, acc: 0.9307
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.826
+--- Training ---
+Epoch 77 train loss: 0.1983, acc: 0.9307
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.837
+--- Training ---
+Epoch 78 train loss: 0.1976, acc: 0.9308
+--- Validation - Source ---
+ * Acc 0.931
+--- Validation - Target ---
+ * Acc 0.858
+mIoU improved from 0.6328 to 0.6351.
+--- Training ---
+Epoch 79 train loss: 0.1976, acc: 0.9310
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.841
+--- Training ---
+Epoch 80 train loss: 0.1963, acc: 0.9313
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.843
+--- Training ---
+Epoch 81 train loss: 0.1963, acc: 0.9313
+--- Validation - Source ---
+ * Acc 0.931
+--- Validation - Target ---
+ * Acc 0.837
+--- Training ---
+Epoch 82 train loss: 0.1957, acc: 0.9315
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.832
+--- Training ---
+Epoch 83 train loss: 0.1958, acc: 0.9313
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.853
+--- Training ---
+Epoch 84 train loss: 0.1957, acc: 0.9314
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.832
+--- Training ---
+Epoch 85 train loss: 0.1964, acc: 0.9312
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.842
+--- Training ---
+Epoch 86 train loss: 0.1935, acc: 0.9317
+--- Validation - Source ---
+ * Acc 0.931
+--- Validation - Target ---
+ * Acc 0.843
+--- Training ---
+Epoch 87 train loss: 0.1940, acc: 0.9318
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.848
+--- Training ---
+Epoch 88 train loss: 0.1952, acc: 0.9314
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.848
+--- Training ---
+Epoch 89 train loss: 0.1937, acc: 0.9316
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.846
+--- Training ---
+Epoch 90 train loss: 0.1938, acc: 0.9318
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.851
+--- Training ---
+Epoch 91 train loss: 0.1932, acc: 0.9318
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.835
+--- Training ---
+Epoch 92 train loss: 0.1944, acc: 0.9317
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.841
+--- Training ---
+Epoch 93 train loss: 0.1939, acc: 0.9320
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.842
+--- Training ---
+Epoch 94 train loss: 0.1940, acc: 0.9315
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.846
+--- Training ---
+Epoch 95 train loss: 0.1925, acc: 0.9321
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.830
+--- Training ---
+Epoch 96 train loss: 0.1932, acc: 0.9321
+--- Validation - Source ---
+ * Acc 0.929
+--- Validation - Target ---
+ * Acc 0.849
+--- Training ---
+Epoch 97 train loss: 0.1926, acc: 0.9320
+--- Validation - Source ---
+ * Acc 0.930
+--- Validation - Target ---
+ * Acc 0.838
+--- Training ---
+Epoch 98 train loss: 0.1917, acc: 0.9321
+--- Validation - Source ---
+ * Acc 0.928
+--- Validation - Target ---
+ * Acc 0.828
+--- Training ---
+Epoch 99 train loss: 0.1922, acc: 0.9323
+--- Validation - Source ---
+ * Acc 0.931
+--- Validation - Target ---
+ * Acc 0.851
+Training complete in 516m 27s
+Best mIoU target: 0.484298
