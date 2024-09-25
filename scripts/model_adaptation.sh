@@ -1,1 +1,2 @@
-python3 model_adaptation/train.py --source_path="./data/cityscapes" --synth_dir="driving in snow" --target_type="snow" --target_path="./data/acdc/snow"
+cd model_adaptation
+python3 train.py --experiment="snow_experiment" --synth_dir="snow" --target_type="acdc_snow" --source_path="../data/cityscapes" --target_path="../data/acdc"
