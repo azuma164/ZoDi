@@ -3,26 +3,17 @@
 Created on Thu Sep 12 13:38:31 2019 by Attila Lengyel - attila@lengyel.nl
 """
 
-from numpy import interp
 import cv2
 import torch
 import time
 import os
-from zmq import PROTOCOL_ERROR_ZAP_BAD_REQUEST_ID
 
 from utils.helpers import AverageMeter, ProgressMeter, visim, vislbl
 from utils.get_iou import iouCalc
 from torchvision import transforms
-from PIL import Image, ImageFilter
+from PIL import Image
 import numpy as np
 import torch.distributed as dist
-import torch.nn as nn
-import torch.nn.functional as F
-import torchvision.transforms.functional as TF
-import torchvision
-import copy
-from datasets.cityscapes_ext import CityscapesExt
-import random
 
 def reduce_mean(tensor, nprocs):  # 用于平均所有gpu上的运行结果，比如loss
 	rt = tensor.clone()
@@ -195,7 +186,7 @@ def train_epoch_BYOL_dual(dataloader, model, criterion, optimizer, epoch, log, v
 	
 	return loss_running.avg, loss_day_running.avg, loss_night_running.avg ,loss_BYOL_running.avg, acc_running.avg, acc_night_running.avg
 
-def train_epoch_SimSiam_dual(dataloader, model, criterion, optimizer, epoch, log, void=-1, BYOL_weight=0.1):
+def train_epoch_SimSiam_dual(dataloader, model, criterion, optimizer, epoch, log, void=-1, sim_weight=0.1):
 	batch_time = AverageMeter('Time', ':6.3f')
 	data_time = AverageMeter('Data', ':6.3f')
 	loss_running = AverageMeter('Loss', ':.4e')
@@ -231,7 +222,7 @@ def train_epoch_SimSiam_dual(dataloader, model, criterion, optimizer, epoch, log
 			loss, loss_SimSiam = 0., 0.
 			outputs, feats_q, feats_z = model(inputs, inputs_synth, dual=False) # encoder_k forwards night data
 			for i in range(len(feats_q)):
-				loss_SimSiam += -1 * (feats_q[i] * feats_z[i]).sum(dim=1).mean() * BYOL_weight
+				loss_SimSiam += -1 * (feats_q[i] * feats_z[i]).sum(dim=1).mean() * sim_weight
 
 			loss_SimSiam /= len(feats_q)
 			loss += loss_SimSiam
@@ -252,7 +243,7 @@ def train_epoch_SimSiam_dual(dataloader, model, criterion, optimizer, epoch, log
 			loss, loss_SimSiam = 0., 0.
 			outputs_synth, feats_q, feats_z = model(inputs_synth, inputs, dual=False) 
 			for i in range(len(feats_q)):
-				loss_SimSiam += -1 * (feats_q[i] * feats_z[i]).sum(dim=1).mean() * BYOL_weight
+				loss_SimSiam += -1 * (feats_q[i] * feats_z[i]).sum(dim=1).mean() * sim_weight
 	
 			loss += loss_SimSiam
 			
@@ -294,7 +285,7 @@ def train_epoch_SimSiam_dual(dataloader, model, criterion, optimizer, epoch, log
 	
 	return loss_running.avg, loss_source_running.avg, loss_synth_running.avg ,loss_SimSiam_running.avg, acc_running.avg, acc_synth_running.avg
 
-def train_epoch_similarity_dual(dataloader, model, criterion, optimizer, epoch, log, void=-1, BYOL_weight=0.1):
+def train_epoch_similarity_dual(dataloader, model, criterion, optimizer, epoch, log, void=-1, sim_weight=0.1):
 	batch_time = AverageMeter('Time', ':6.3f')
 	data_time = AverageMeter('Data', ':6.3f')
 	loss_running = AverageMeter('Loss', ':.4e')
@@ -330,8 +321,7 @@ def train_epoch_similarity_dual(dataloader, model, criterion, optimizer, epoch, 
 			loss, loss_similarity = 0., 0.
 			outputs, feats_q, feats_z = model(inputs, inputs_synth, dual=False) # encoder_k forwards night data
 			for i in range(len(feats_q)):
-				# meanってなんのためにある？
-				loss_similarity += -1 * (feats_q[i] * feats_z[i]).sum(dim=1).mean() * BYOL_weight
+				loss_similarity += -1 * (feats_q[i] * feats_z[i]).sum(dim=1).mean() * sim_weight
 
 			loss_similarity /= len(feats_q)
 			loss += loss_similarity
@@ -388,236 +378,6 @@ def train_epoch_similarity_dual(dataloader, model, criterion, optimizer, epoch, 
 	log.info('Epoch {} train loss: {:.4f}, acc: {:.4f}'.format(epoch,loss_running.avg,acc_running.avg))
 	
 	return loss_running.avg, loss_source_running.avg, loss_synth_running.avg ,loss_similarity_running.avg, acc_running.avg, acc_synth_running.avg
-
-
-def train_epoch_kd_dual(dataloader, model, criterion, optimizer, epoch, log, void=-1, BYOL_weight=0.1):
-	batch_time = AverageMeter('Time', ':6.3f')
-	data_time = AverageMeter('Data', ':6.3f')
-	loss_running = AverageMeter('Loss', ':.4e')
-	loss_source_running = AverageMeter('Loss_source', ':.4e')
-	loss_synth_running = AverageMeter('Loss_synth', ':.4e')
-	loss_similarity_running = AverageMeter('Loss_similarity', ':.4e')
-	acc_running = AverageMeter('Acc', ':6.2f')
-	acc_synth_running = AverageMeter('Acc_synth', ':6.2f')
-	progress = ProgressMeter(
-		len(dataloader),
-		[batch_time, data_time, loss_running, loss_source_running, 
-			loss_synth_running, loss_similarity_running, acc_running, acc_synth_running],
-		prefix="Epoch: [{}]".format(epoch))
-	
-	# set model in training mode
-	model.train()
-	
-	end = time.time()
-	
-	loss_kd = nn.KLDivLoss(reduction="batchmean")
-	with torch.set_grad_enabled(True):
-		# Iterate over data.
-		for epoch_step, (inputs, inputs_synth, labels) in enumerate(dataloader):
-			bs = inputs.size(0) # current batch size
-			data_time.update(time.time()-end)
-
-			# input resolution
-			res = inputs.shape[2]*inputs.shape[3]
-			inputs = inputs.float().cuda()
-			labels = labels.long().cuda()
-
-			optimizer.zero_grad()
-			# forward & backward day data (pass day data to normal route)
-			loss, loss_similarity = 0., 0.
-			outputs, feats_q, feats_z = model(inputs, inputs_synth, dual=False) # encoder_k forwards night data
-			for i in range(len(feats_q)):
-				loss_similarity += loss_kd(F.log_softmax(feats_q[i], dim=-1), feats_z[i].softmax(dim=-1)) * BYOL_weight
-				loss_similarity += loss_kd(F.log_softmax(feats_z[i], dim=-1), feats_q[i].softmax(dim=-1)) * BYOL_weight
-
-			loss_similarity /= len(feats_q)
-			loss_similarity /= 2
-			loss += loss_similarity
-
-			preds = torch.argmax(outputs, 1)
-			loss_source = criterion(outputs, labels)
-			loss += loss_source
-			
-			loss.backward()
-
-			loss = loss.item()
-			loss_running.update(loss, bs)
-			loss_source_running.update(loss_source.item(), bs)
-			loss_similarity_running.update(loss_similarity.item(), bs)
-
-			# forward & backward night data (pass day night to normal route)
-			# optimizer.zero_grad()
-			loss = 0.
-			outputs_synth, feats_q, feats_z = model(inputs_synth, inputs, dual=False) 
-			
-			preds_synth = torch.argmax(outputs_synth, 1)
-			loss_synth = criterion(outputs_synth, labels)
-			loss += loss_synth
-
-			loss.backward()
-			
-			loss = loss.item()
-			loss_running.update(loss, bs)
-			loss_synth_running.update(loss_synth.item(), bs)
-			
-			# update parameters
-			optimizer.step()
-
-			# Statistics
-			nvoid = int((labels==void).sum())
-			corrects = torch.sum(preds == labels.data)
-			acc = corrects.double()/(bs*res-nvoid) # correct/(batch_size*resolution-voids)
-			acc_running.update(acc, bs)
-			corrects_synth = torch.sum(preds_synth == labels.data)
-			acc_synth = corrects_synth.double()/(bs*res-nvoid) # correct/(batch_size*resolution-voids)
-			acc_synth_running.update(acc_synth, bs)
-			
-			# Output training info
-			progress.display(epoch_step)
-			# Append current stats to csv
-			with open('logs/log_batch.csv', 'a') as log_batch:
-				log_batch.write('{}, {}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}\n'.format(epoch,
-								epoch_step, loss/bs, loss_running.avg, loss_source_running.avg, loss_synth_running.avg, 
-								loss_similarity_running.avg, acc_synth_running.avg, acc_running.avg))
-							
-			batch_time.update(time.time() - end)
-			end = time.time()
-			
-	log.info('Epoch {} train loss: {:.4f}, acc: {:.4f}'.format(epoch,loss_running.avg,acc_running.avg))
-	
-	return loss_running.avg, loss_source_running.avg, loss_synth_running.avg ,loss_similarity_running.avg, acc_running.avg, acc_synth_running.avg
-
-
-def train_epoch_BYOL_dual_online(dataloader, model, darkening_model, criterion, optimizer, epoch, log, void=-1, BYOL_weight=0.1):
-	batch_time = AverageMeter('Time', ':6.3f')
-	data_time = AverageMeter('Data', ':6.3f')
-	loss_running = AverageMeter('Loss', ':.4e')
-	loss_day_running = AverageMeter('Loss_day', ':.4e')
-	loss_night_running = AverageMeter('Loss_night', ':.4e')
-	loss_BYOL_running = AverageMeter('Loss_BYOL', ':.4e')
-	acc_running = AverageMeter('Acc', ':6.2f')
-	acc_night_running = AverageMeter('Acc_night', ':6.2f')
-	progress = ProgressMeter(
-		len(dataloader),
-		[batch_time, data_time, loss_running, loss_day_running, 
-			loss_night_running, loss_BYOL_running, acc_running, acc_night_running],
-		prefix="Epoch: [{}]".format(epoch))
-	
-	# set model in training mode
-	model.train()
-	
-	end = time.time()
-	
-	with torch.set_grad_enabled(True):
-		# Iterate over data.
-		for epoch_step, (inputs, inputs_night, labels) in enumerate(dataloader):
-			bs = inputs.size(0) # current batch size
-			data_time.update(time.time()-end)
-
-			# input resolution
-			res = inputs.shape[2]*inputs.shape[3]
-			
-			inputs = inputs.float().cuda()
-			labels = labels.long().cuda()
-
-			try:
-				model._momemtum_update_key_encoder()
-			except:
-				model.module._momentum_update_key_encoder()
-
-			with torch.no_grad():
-				exp = np.random.uniform(0, 0.2)
-				d = inputs.shape
-				exp = torch.tensor(exp).cuda().expand(d[0], 1, d[2], d[3])
-				noise = torch.randn(d[0], 1, d[2] // 64, d[3] // 64).cuda() * 0.025
-				noise = TF.resize(noise, (d[2], d[3]), interpolation=Image.BILINEAR)
-				exp = noise + torch.randn_like(exp).cuda() * 0.025
-				# inputs_night = torch.clamp(inputs_night, 0, 0.8)
-				inputs_night, _ = darkening_model(inputs_night, exp)
-				inputs_night = (inputs_night * 255).byte() / 255
-
-				# color jitter and normalize
-				mean = (0.485, 0.456, 0.406)
-				std = (0.229, 0.224, 0.225)
-
-				jitter = 0.3
-				bf = random.uniform(1-jitter,1+jitter)
-				cf = random.uniform(1-jitter,1+jitter)
-				sf = random.uniform(1-jitter,1+jitter)
-				hf = random.uniform(-jitter,jitter)
-				inputs_night = TF.adjust_brightness(inputs_night, bf)
-				inputs_night = TF.adjust_contrast(inputs_night, cf)
-				inputs_night = TF.adjust_saturation(inputs_night, sf)
-				inputs_night = TF.adjust_hue(inputs_night, hf)
-
-				bf = random.uniform(1-jitter,1+jitter)
-				cf = random.uniform(1-jitter,1+jitter)
-				sf = random.uniform(1-jitter,1+jitter)
-				hf = random.uniform(-jitter,jitter)
-				inputs = TF.adjust_brightness(inputs, bf)
-				inputs = TF.adjust_contrast(inputs, cf)
-				inputs = TF.adjust_saturation(inputs, sf)
-				inputs = TF.adjust_hue(inputs, hf)
-
-				inputs = TF.normalize(inputs, mean=mean, std=std)
-				inputs_night = TF.normalize(inputs_night, mean=mean, std=std)
-				
-			optimizer.zero_grad()
-			# forward & backward day data (pass day data to normal route)
-			loss, loss_BYOL = 0., 0.
-			outputs, feats_q, feats_k = model(inputs, inputs_night, dual=False) # encoder_k forwards night data
-			for i in range(len(feats_q)):
-				loss_BYOL += (2-2 * (feats_q[i] * feats_k[i]).sum(dim=1).mean()) * BYOL_weight
-
-			preds = torch.argmax(outputs, 1)
-			loss_day = criterion(outputs, labels)
-			loss += loss_day
-
-			# forward & backward night data (pass day night to normal route)
-			outputs_night, feats_q, feats_k = model(inputs_night, inputs, dual=False) 
-			for i in range(len(feats_q)):
-				loss_BYOL += (2-2 * (feats_q[i] * feats_k[i]).sum(dim=1).mean()) * BYOL_weight
-			loss_BYOL /= 8
-			loss += loss_BYOL
-			
-			preds_night = torch.argmax(outputs_night, 1)
-			loss_night = criterion(outputs_night, labels)
-			loss += loss_night
-
-			loss.backward()
-			loss = loss.item()
-
-			loss_running.update(loss, bs)
-			loss_day_running.update(loss_day.item(), bs)
-			loss_night_running.update(loss_night.item(), bs)
-			loss_BYOL_running.update(loss_BYOL.item(), bs)
-			
-			# update parameters
-			optimizer.step()
-
-			# Statistics
-			nvoid = int((labels==void).sum())
-			corrects = torch.sum(preds == labels.data)
-			acc = corrects.double()/(bs*res-nvoid) # correct/(batch_size*resolution-voids)
-			acc_running.update(acc, bs)
-			corrects_night = torch.sum(preds_night == labels.data)
-			acc_night = corrects_night.double()/(bs*res-nvoid) # correct/(batch_size*resolution-voids)
-			acc_night_running.update(acc_night, bs)
-			
-			# Output training info
-			progress.display(epoch_step)
-			# Append current stats to csv
-			with open('logs/log_batch.csv', 'a') as log_batch:
-				log_batch.write('{}, {}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}\n'.format(epoch,
-								epoch_step, loss/bs, loss_running.avg, loss_day_running.avg, loss_night_running.avg, 
-								loss_BYOL_running.avg, acc_night_running.avg, acc_running.avg))
-							
-			batch_time.update(time.time() - end)
-			end = time.time()
-			
-	log.info('Epoch {} train loss: {:.4f}, acc: {:.4f}'.format(epoch,loss_running.avg,acc_running.avg))
-	
-	return loss_running.avg, loss_day_running.avg, loss_night_running.avg ,loss_BYOL_running.avg, acc_running.avg, acc_night_running.avg
 
 
 def evaluate(dataloader, model, criterion, epoch, classLabels, validClasses, log=None, void=-1, maskColors=None, mean=None, std=None):
