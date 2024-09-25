@@ -1,4 +1,4 @@
-name: control-v11
+name: zodi
 channels:
   - pytorch
   - defaults
