@@ -12,7 +12,12 @@ Deep learning models achieve high accuracy in segmentation tasks among others, y
 TODO
 
 ### Dataset
-TODO
+Download City Scapes Dataset in this [official website](https://www.cityscapes-dataset.com/).
+You need to download 
+- gtFine_trainvaltest.zip
+- leftImg8bit_trainvaltest.zip
+
+Download ACDC Dataset
 
 
 ### Image Transfer
