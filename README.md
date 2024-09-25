@@ -15,7 +15,7 @@ conda create -n zodi -f environment.yaml
 ```
 
 ### Dataset
-Download City Scapes Dataset in this [official website](https://www.cityscapes-dataset.com/).
+Download CityScapes Dataset in this [official website](https://www.cityscapes-dataset.com/).
 You need to download 
 - gtFine_trainvaltest.zip
 - leftImg8bit_trainvaltest.zip
